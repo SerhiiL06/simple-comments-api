@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import OpenApiParameter, extend_schema_field
 from rest_framework import serializers, status
 
 from src.posts.models import Comment, Post
 from src.users.serializers import ShortUserSerializer
-from django.shortcuts import get_object_or_404
-from drf_spectacular.utils import extend_schema_field, OpenApiParameter
 
 
 class CreatePostSerializer(serializers.ModelSerializer):
@@ -69,7 +69,22 @@ class DetailPostSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(CommentSerializer)
     def get_post_comments(self, obj):
-        root_comments = obj.post_comments.filter(level=0).order_by("created_at")
+
+        request = self.context.get("request")
+
+        comment_page: str = request.query_params.get("comment_page")
+
+        min_value = 0
+        max_value = 25
+
+        if comment_page and comment_page.isdigit():
+            comment_page = int(comment_page)
+            min_value = (comment_page - 1) * 25
+            max_value = comment_page * 25
+
+        root_comments = obj.post_comments.filter(level=0).order_by("created_at")[
+            min_value:max_value
+        ]
         return CommentSerializer(root_comments, many=True).data
 
 

@@ -116,5 +116,8 @@ REST_FRAMEWORK = {
 }
 
 
-AVAILABLE_FILE_EXT = ["jpg", "jpeg", "png"]
-AVAILABLE_IMAGE_EXT = ["txt"]
+AVAILABLE_FILE_EXT = ["txt"]
+AVAILABLE_IMAGE_EXT = ["jpg", "jpeg", "png"]
+
+
+SPECTACULAR_SETTINGS = {"COMPONENT_SPLIT_REQUEST": True}

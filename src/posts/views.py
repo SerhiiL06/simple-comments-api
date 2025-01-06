@@ -1,16 +1,15 @@
-from rest_framework import permissions, viewsets
-from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
+from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
+
 from src.posts.models import Post
 from src.posts.paginators import PostPaginator
-from src.posts.serializers import (
-    AddCommentSerializer,
-    CreatePostSerializer,
-    DetailPostSerializer,
-    PostSerializer,
-)
+from src.posts.serializers import (AddCommentSerializer, CreatePostSerializer,
+                                   DetailPostSerializer, PostSerializer)
 
 
 class PostViewset(viewsets.ModelViewSet):
@@ -36,6 +35,19 @@ class PostViewset(viewsets.ModelViewSet):
                 "post_comments__comments_child"
             ).select_related("author")
         return super().get_queryset()
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="comment_page",
+                type=OpenApiTypes.INT,
+                required=False,
+                location=OpenApiParameter.QUERY,
+            )
+        ]
+    )
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
     @action(
         methods=["post"],

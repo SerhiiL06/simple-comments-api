@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
 from django_resized import ResizedImageField
+from mptt.models import MPTTModel, TreeForeignKey
+
 from core.settings import AVAILABLE_FILE_EXT, AVAILABLE_IMAGE_EXT
 
 

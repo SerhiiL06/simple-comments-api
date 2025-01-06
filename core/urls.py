@@ -1,7 +1,8 @@
+from django.conf import global_settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -16,3 +17,9 @@ urlpatterns = [
         name="swagger-ui",
     ),
 ]
+
+
+if global_settings.DEBUG:
+    urlpatterns += static(
+        global_settings.MEDIA_URL, document_root=global_settings.MEDIA_ROOT
+    )
