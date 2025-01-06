@@ -19,6 +19,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_filters",
+    "djoser",
+    # custom
+    "src.posts",
+    "src.users",
 ]
 
 MIDDLEWARE = [
