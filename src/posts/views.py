@@ -3,7 +3,6 @@ from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
 from src.posts.models import Post
 from src.posts.paginators import PostPaginator
 from src.posts.serializers import (
@@ -15,6 +14,7 @@ from src.posts.serializers import (
 
 
 class PostViewset(viewsets.ModelViewSet):
+    http_method_names = ["get", "post"]
     queryset = Post.objects.select_related("author")
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

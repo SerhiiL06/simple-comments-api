@@ -6,6 +6,7 @@ from rest_framework import serializers, status
 from src.posts.models import Comment, Post
 from src.users.serializers import ShortUserSerializer
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema_field, OpenApiParameter
 
 
 class CreatePostSerializer(serializers.ModelSerializer):
@@ -50,6 +51,9 @@ class CommentSerializer(serializers.ModelSerializer):
             "comments_child",
         ]
 
+    @extend_schema_field(
+        OpenApiParameter(name="comments_child", type={"type": "array"})
+    )
     def get_comments_child(self, obj):
         child_comments = obj.comments_child.order_by("created_at")
         return CommentSerializer(child_comments, many=True).data
@@ -63,6 +67,7 @@ class DetailPostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ["author", "text", "image", "file", "created_at", "post_comments"]
 
+    @extend_schema_field(CommentSerializer)
     def get_post_comments(self, obj):
         root_comments = obj.post_comments.filter(level=0).order_by("created_at")
         return CommentSerializer(root_comments, many=True).data
