@@ -5,6 +5,7 @@ from rest_framework import serializers, status
 
 from src.posts.models import Comment, Post
 from src.users.serializers import ShortUserSerializer
+from django.shortcuts import get_object_or_404
 
 
 class CreatePostSerializer(serializers.ModelSerializer):
@@ -83,10 +84,7 @@ class AddCommentSerializer(serializers.ModelSerializer):
                 "post_id must be provided", status.HTTP_400_BAD_REQUEST
             )
 
-        post_instance = Post.objects.get(pk=post_id)
-
-        if not post_instance:
-            raise Post.DoesNotExist()
+        get_object_or_404(Post, pk=post_id)
 
         comment_parent = attrs.get("comment_parent_id")
 

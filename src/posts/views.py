@@ -1,8 +1,11 @@
 from rest_framework import permissions, viewsets
+from rest_framework.filters import OrderingFilter
+from django_filters import rest_framework as filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from src.posts.models import Post
+from src.posts.paginators import PostPaginator
 from src.posts.serializers import (
     AddCommentSerializer,
     CreatePostSerializer,
@@ -15,6 +18,10 @@ class PostViewset(viewsets.ModelViewSet):
     queryset = Post.objects.select_related("author")
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = PostPaginator
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ["author__email", "author__username"]
+    ordering_fields = ["author__email", "author__username", "created_at"]
 
     def get_serializer_class(self):
         if self.action == "create":
