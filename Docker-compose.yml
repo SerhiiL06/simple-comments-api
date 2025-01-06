@@ -15,6 +15,8 @@ services:
       - postgres
     networks:
       - simple-network
+    stdin_open: true
+    tty: true
   postgres:
     image: postgres:16-alpine
     container_name: comments-db

@@ -1,6 +1,6 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from rest_framework import serializers
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
@@ -22,3 +22,10 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         if attrs.get("password1") != attrs.get("password2"):
             raise ValidationError("Passwords must be the same")
         return super().validate(attrs)
+
+
+class ShortUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ["id", "username"]

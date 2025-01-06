@@ -1,4 +1,5 @@
 from rest_framework.routers import SimpleRouter
+
 from src.users.views import UserViewset
 
 router = SimpleRouter()

@@ -1,7 +1,7 @@
-from pathlib import Path
-from dotenv import load_dotenv
 import os
+from pathlib import Path
 
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -111,3 +111,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ),
 }
+
+
+AVAILABLE_FILE_EXT = ["jpg", "jpeg", "png"]
+AVAILABLE_IMAGE_EXT = ["txt"]
