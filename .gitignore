@@ -1,0 +1,7 @@
+.venv
+.env
+Pipfile
+Pipfile.lock
+media/*
+static/*
+__pycache__/
