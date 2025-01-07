@@ -13,6 +13,7 @@ services:
      - ./:/app
     depends_on:
       - postgres
+      - redis
     networks:
       - simple-network
     stdin_open: true
@@ -24,9 +25,12 @@ services:
       - .env
     volumes:
       - ./postgres_data:/var/lib/postgresql
-    ports:
-      - "5432:5432"
     networks:
+      - simple-network
+  redis:
+   image: redis:alpine
+   container_name: comments-redis
+   networks:
       - simple-network
 
 networks:
