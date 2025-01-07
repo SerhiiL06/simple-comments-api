@@ -12,6 +12,7 @@ from src.posts.serializers import (AddCommentSerializer, CreatePostSerializer,
                                    DetailPostSerializer, PostSerializer)
 
 
+@extend_schema(tags=["posts"])
 class PostViewset(viewsets.ModelViewSet):
     http_method_names = ["get", "post"]
     queryset = Post.objects.select_related("author")

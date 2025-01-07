@@ -3,6 +3,7 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django_resized import ResizedImageField
 from mptt.models import MPTTModel, TreeForeignKey
+from redis import Redis
 
 from core.settings import AVAILABLE_FILE_EXT, AVAILABLE_IMAGE_EXT
 
