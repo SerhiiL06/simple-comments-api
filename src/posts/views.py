@@ -5,11 +5,16 @@ from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
+from rest_framework import status
 
 from src.posts.models import Post
 from src.posts.paginators import PostPaginator
-from src.posts.serializers import (AddCommentSerializer, CreatePostSerializer,
-                                   DetailPostSerializer, PostSerializer)
+from src.posts.serializers import (
+    AddCommentSerializer,
+    CreatePostSerializer,
+    DetailPostSerializer,
+    PostSerializer,
+)
 
 
 @extend_schema(tags=["posts"])
@@ -66,4 +71,4 @@ class PostViewset(viewsets.ModelViewSet):
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
